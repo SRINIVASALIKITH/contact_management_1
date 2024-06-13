@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Delete Contact</h2>
+    <p>Are you sure you want to delete this contact?</p>
+    <form id="deleteContactForm" action="{{ url_for('delete_contact', id=contact.id) }}" method="post">
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        // Function to show a pop-up message
+        function showMessage(message) {
+            alert(message);
+        }
+
+        // Get the delete form element by ID
+        const deleteContactForm = document.getElementById('deleteContactForm');
+
+        // Add an event listener to the form submission
+        deleteContactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Submit the form data using fetch or XMLHttpRequest
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest' // Set a custom header to identify AJAX requests
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message if the response is OK (contact deleted successfully)
+                    showMessage('Contact deleted successfully!');
+                    window.location.replace("{{ url_for('index') }}"); // Redirect to home page
+                } else {
+                    // Handle errors if needed
+                    showMessage('Error deleting contact.');
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                showMessage('Network error. Please try again.');
+            });
+        });
+    </script>
+{% endblock %}

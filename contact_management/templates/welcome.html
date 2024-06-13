@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <div class="welcome-container">
+        <h2>Welcome to the Contact Management System</h2>
+        <p>Manage your contacts efficiently and easily.</p>
+        <img src="{{ url_for('static', filename='images/welcome_image.jpg') }}" alt="Welcome Image">
+    </div>
+{% endblock %}
